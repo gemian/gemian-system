@@ -1,0 +1,40 @@
+#!/bin/bash -e
+
+action="$1"
+oldversion="$2"
+
+if [ "$action" != configure ]; then
+    exit 0
+fi
+
+target_checksum="c977d21306553913ae35b830f9711c03681c7d6c"
+echo "Target checksum $target_checksum"
+
+echo "Checking /data/system.img"
+
+current_checksum="$(sha1sum /data/system.img | cut -d' ' -f1)"
+
+echo "Checksum $current_checksum"
+
+if [ "$target_checksum" == "$current_checksum" ];
+then
+  echo "Android system image upto date"
+  exit 0
+else
+  tempfile="$(mktemp)"
+  rm $tempfile
+  echo "Downloading new Android system image"
+  curl https://gemian.thinkglobally.org/system/system.$target_checksum.img.xz --output $tempfile.xz
+  xz -d $tempfile.xz
+  downloaded_checksum="$(sha1sum $tempfile | cut -d' ' -f1)"
+  if [ "$target_checksum" == "$downloaded_checksum" ];
+  then
+    echo "Moving new system image into place, please reboot to activate"
+    mv $tempfile /data/system.img
+    exit 0
+  else
+    echo "Downloaded checksum fail - check your internet for random errors or man in the middle attacks and retry"
+    exit 1
+  fi
+fi
+

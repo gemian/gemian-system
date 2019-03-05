@@ -1,0 +1,13 @@
+Source: gemian-system
+Section: kernel
+Priority: extra
+Maintainer: Adam Boardman <adamboardman@gmail.com>
+Build-Depends:
+Standards-Version: 3.9.8
+Vcs-Git: https://github.com/gemian/gemian-system.git
+
+Package: gemian-system
+Architecture: all
+Depends: xz-utils, curl
+Description: Gemini Android System Image
+ Contains the Android System that is run inside an lxc container
