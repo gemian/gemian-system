@@ -7,7 +7,7 @@ if [ "$action" != configure ]; then
     exit 0
 fi
 
-target_checksum="c977d21306553913ae35b830f9711c03681c7d6c"
+target_checksum="0c7993d794982a3b7e80801ffb6b565ab0b8a815"
 echo "Target checksum $target_checksum"
 
 echo "Checking /data/system.img"
