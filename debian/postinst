@@ -7,12 +7,27 @@ if [ "$action" != configure ]; then
     exit 0
 fi
 
-target_checksum="39cd17718e838823c80be0ddfc9763d88e32c1b0"
+cmdline=$(</proc/cmdline)
+android_system_img="unknown"
+target_checksum="unknown"
+
+if [[ "$cmdline" =~ ^(.*)androidboot.hardware\=mt6797(.*)$ ]];
+then
+  android_system_img="/data/system.img"
+  target_checksum="39cd17718e838823c80be0ddfc9763d88e32c1b0"
+fi
+
+if [[ "$cmdline" =~ ^(.*)androidboot.hardware\=mt6771(.*)$ ]];
+then
+  android_system_img="/var/lib/lxc/android/android-rootfs.img"
+  target_checksum="4478ce425e593fb708b86234a8ea83e6fcdaaeec"
+fi
+
 echo "Target checksum $target_checksum"
 
-echo "Checking /data/system.img"
+echo "Checking $android_system_img"
 
-current_checksum="$(sha1sum /data/system.img | cut -d' ' -f1)"
+current_checksum="$(sha1sum $android_system_img | cut -d' ' -f1)"
 
 echo "Checksum $current_checksum"
 
@@ -30,7 +45,7 @@ else
   if [ "$target_checksum" == "$downloaded_checksum" ];
   then
     echo "Moving new system image into place, please reboot to activate"
-    mv $tempfile /data/system.img
+    mv $tempfile $android_system_img
     exit 0
   else
     echo "Downloaded checksum fail - check your internet for random errors or man in the middle attacks and retry"
