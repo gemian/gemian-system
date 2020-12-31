@@ -8,20 +8,29 @@ if [ "$action" != configure ]; then
 fi
 
 cmdline=$(</proc/cmdline)
+device="unknown"
+android_system_dir="unknown"
 android_system_img="unknown"
 target_checksum="unknown"
 
 if [[ "$cmdline" =~ ^(.*)androidboot.hardware\=mt6797(.*)$ ]];
 then
+  device="mt6797"
+  android_system_dir="/data"
   android_system_img="/data/system.img"
   target_checksum="39cd17718e838823c80be0ddfc9763d88e32c1b0"
 fi
 
 if [[ "$cmdline" =~ ^(.*)androidboot.hardware\=mt6771(.*)$ ]];
 then
+  device="mt6771"
+  android_system_dir="/var/lib/lxc/android"
   android_system_img="/var/lib/lxc/android/android-rootfs.img"
   target_checksum="4478ce425e593fb708b86234a8ea83e6fcdaaeec"
 fi
+
+[ -e /lib/udev/rules.d/80-keyboard.rules ] || \
+    cp /usr/lib/gemian/udev-rules/80-keyboard-$device.rules /lib/udev/rules.d/80-keyboard.rules
 
 echo "Target checksum $target_checksum"
 
@@ -45,6 +54,7 @@ else
   if [ "$target_checksum" == "$downloaded_checksum" ];
   then
     echo "Moving new system image into place, please reboot to activate"
+    mkdir -p $android_system_dir
     mv $tempfile $android_system_img
     exit 0
   else
