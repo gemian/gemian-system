@@ -32,6 +32,9 @@ fi
 [ -e /lib/udev/rules.d/80-keyboard.rules ] || \
     cp /usr/lib/gemian/udev-rules/80-keyboard-$device.rules /lib/udev/rules.d/80-keyboard.rules
 
+[ -e /lib/udev/rules.d/70-$device.rules ] || \
+    cp /usr/lib/gemian/udev-rules/70-$device.rules /lib/udev/rules.d/
+
 echo "Target checksum $target_checksum"
 
 echo "Checking $android_system_img"

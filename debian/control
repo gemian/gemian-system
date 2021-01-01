@@ -1,6 +1,6 @@
 Source: gemian-system
 Section: kernel
-Priority: extra
+Priority: optional
 Maintainer: Adam Boardman <adamboardman@gmail.com>
 Build-Depends: debhelper (>= 12~)
 Standards-Version: 3.9.8
