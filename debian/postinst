@@ -29,6 +29,10 @@ then
   target_checksum="4478ce425e593fb708b86234a8ea83e6fcdaaeec"
 fi
 
+if [ "$device" == unknown ]; then
+  device=$TARGET_DEVICE
+fi
+
 [ -e /lib/udev/rules.d/80-keyboard.rules ] || \
     cp /usr/lib/gemian/udev-rules/80-keyboard-$device.rules /lib/udev/rules.d/80-keyboard.rules
 
