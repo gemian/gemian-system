@@ -30,7 +30,12 @@ then
 fi
 
 if [ "$device" == unknown ]; then
-  device=$TARGET_DEVICE
+  pid=$$
+  while [ "$device" == unknown -a $pid != 1 ]; do
+    env=`strings /proc/$pid/environ`
+    device=`echo "$env"|awk -F= '$1 == "TARGET_DEVICE" { print $2; }'`
+    pid=`ps -oppid -p$pid|tail -1|awk '{print $1}'`
+  done
 fi
 
 [ -e /lib/udev/rules.d/80-keyboard.rules ] || \
