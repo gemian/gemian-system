@@ -8,6 +8,6 @@ Vcs-Git: https://github.com/gemian/gemian-system.git
 
 Package: gemian-system
 Architecture: all
-Depends: xz-utils, curl
+Depends: xz-utils, curl, binutils
 Description: Gemini Android System Image
  Contains the Android System that is run inside an lxc container
