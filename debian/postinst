@@ -23,6 +23,11 @@ then
   device="mt6771"
 fi
 
+if [[ "$cmdline" =~ ^(.*)androidboot.hardware\=mt6873(.*)$ ]];
+then
+  device="mt6873"
+fi
+
 if [ "$device" == unknown ]; then
   pid=$$
   while [ "$device" == unknown -a $pid != 1 ]; do
@@ -42,6 +47,11 @@ case $device in
   android_system_dir="/var/lib/lxc/android"
   android_system_img="/var/lib/lxc/android/android-rootfs.img"
   target_checksum="f8b91bd83795c62f1e9b33be9a4156bdf4a90658"
+  ;;
+"mt6873")
+  android_system_dir="/var/lib/lxc/android"
+  android_system_img="/var/lib/lxc/android/android-rootfs.img"
+  target_checksum="53e602c80cf041eee6485ea978c68aec94dd19c5"
   ;;
 esac
 
