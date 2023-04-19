@@ -28,6 +28,25 @@ then
   device="mt6873"
 fi
 
+if [[ "$device" == unknown ]]
+then
+  model=$(</proc/device-tree/model)
+  if [[ "$model" =~ ^(.*)MT6797(.*)$ ]];
+  then
+    device="mt6797"
+  fi
+
+  if [[ "$model" =~ ^(.*)MT6771(.*)$ ]];
+  then
+    device="mt6771"
+  fi
+
+  if [[ "$model" =~ ^(.*)MT6873(.*)$ ]];
+  then
+    device="mt6873"
+  fi
+fi
+
 if [ "$device" == unknown ]; then
   pid=$$
   while [ "$device" == unknown -a $pid != 1 ]; do
@@ -51,7 +70,7 @@ case $device in
 "mt6873")
   android_system_dir="/var/lib/lxc/android"
   android_system_img="/var/lib/lxc/android/android-rootfs.img"
-  target_checksum="53e602c80cf041eee6485ea978c68aec94dd19c5"
+  target_checksum="719e8fea179d109aa64586e754d69c9a53da28cd"
   ;;
 esac
 
