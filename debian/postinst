@@ -28,7 +28,7 @@ then
   device="mt6873"
 fi
 
-if [[ "$device" == unknown ]]
+if [ -f "/proc/device-tree/model" -a "$device" == unknown ];
 then
   model=$(</proc/device-tree/model)
   if [[ "$model" =~ ^(.*)MT6797(.*)$ ]];
