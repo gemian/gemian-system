@@ -70,7 +70,7 @@ case $device in
 "mt6873")
   android_system_dir="/var/lib/lxc/android"
   android_system_img="/var/lib/lxc/android/android-rootfs.img"
-  target_checksum="719e8fea179d109aa64586e754d69c9a53da28cd"
+  target_checksum="ac89776ea0c06fe7148237cdf800cb917cdd985d"
   ;;
 esac
 
