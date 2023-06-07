@@ -74,11 +74,19 @@ case $device in
   ;;
 esac
 
-[ -e /lib/udev/rules.d/80-keyboard.rules ] || \
-    cp /usr/lib/gemian/udev-rules/80-keyboard-$device.rules /lib/udev/rules.d/80-keyboard.rules
+if cmp -s /lib/udev/rules.d/80-keyboard.rules /usr/lib/gemian/udev-rules/80-keyboard-$device.rules;
+then
+  echo Keyboard rules in place
+else
+  cp /usr/lib/gemian/udev-rules/80-keyboard-$device.rules /lib/udev/rules.d/80-keyboard.rules
+fi
 
-[ -e /lib/udev/rules.d/70-$device.rules ] || \
-    cp /usr/lib/gemian/udev-rules/70-$device.rules /lib/udev/rules.d/
+if cmp -s /lib/udev/rules.d/70-$device.rules /usr/lib/gemian/udev-rules/70-$device.rules;
+then
+  echo Device rules in place
+else
+  cp /usr/lib/gemian/udev-rules/70-$device.rules /lib/udev/rules.d/
+fi
 
 echo "Target checksum $target_checksum"
 
